@@ -2,8 +2,13 @@ import AdminJS from "adminjs";
 import AdminJSFastify from "@adminjs/fastify";
 import * as AdminJSMongoose from "@adminjs/mongoose";
 import * as Models from "../models/index.js";
+
 import { authenticate, COOKIE_PASSWORD, sessionStore } from "./config.js";
 import { dark, light, noSidebar } from "@adminjs/themes";
+import {
+  AppConfigListProperties,
+  AppConfigProperty,
+} from "../models/globalConfig.js";
 AdminJS.registerAdapter(AdminJSMongoose);
 
 export const admin = new AdminJS({
@@ -38,6 +43,27 @@ export const admin = new AdminJS({
     {
       resource: Models.Branch,
     },
+    {
+      resource: Models.Counter,
+    },
+    {
+      resource: Models.Order,
+    },
+    {
+      resource: Models.AppConfig,
+      options: {
+        properties: AppConfigProperty,
+        // listProperties: AppConfigListProperties,
+        actions: {
+          delete: {
+            isVisible: false,
+          },
+          show: {
+            isVisible: false,
+          },
+        },
+      },
+    },
   ],
 
   branding: {
@@ -46,7 +72,7 @@ export const admin = new AdminJS({
     favicon:
       "https://res.cloudinary.com/dl4elxvt3/image/upload/v1727001494/n0zck2n6uwsfj6lrdkv0.png",
   },
-  defaultTheme: dark.id,
+  defaultTheme: light.id,
   availableThemes: [dark, light, noSidebar],
   rootPath: "/admin",
 });
