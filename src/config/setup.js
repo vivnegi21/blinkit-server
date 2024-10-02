@@ -5,10 +5,8 @@ import * as Models from "../models/index.js";
 
 import { authenticate, COOKIE_PASSWORD, sessionStore } from "./config.js";
 import { dark, light, noSidebar } from "@adminjs/themes";
-import {
-  AppConfigListProperties,
-  AppConfigProperty,
-} from "../models/globalConfig.js";
+import { AppConfigProperty } from "../models/globalConfig.js";
+
 AdminJS.registerAdapter(AdminJSMongoose);
 
 export const admin = new AdminJS({
@@ -61,13 +59,16 @@ export const admin = new AdminJS({
           show: {
             isVisible: false,
           },
+          new: {
+            isVisible: false,
+          },
         },
       },
     },
   ],
 
   branding: {
-    companyName: "Blinkit",
+    companyName: "Admin Portal",
     withMadeWithLove: false,
     favicon:
       "https://res.cloudinary.com/dl4elxvt3/image/upload/v1727001494/n0zck2n6uwsfj6lrdkv0.png",
