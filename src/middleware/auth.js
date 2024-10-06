@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
 
 export const verifyToken = async (req, reply) => {
+  console.log("req in middleware===================", req.body);
+  const authHeader = req.headers.authorization;
   try {
-    const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return reply.code(401).send({ message: "Unauthorized" });
+      return reply.code(401).send({ message: "Unauthorized", authHeader });
     }
-    const token = authHeader.substring(" ")[1];
+    const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
     req.user = decoded;

@@ -9,7 +9,7 @@ const generateToken = (user) => {
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "1d",
+      expiresIn: "1y",
     }
   );
   const refreshToken = jwt.sign(
@@ -19,7 +19,7 @@ const generateToken = (user) => {
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
-      expiresIn: "1d",
+      expiresIn: "1y",
     }
   );
 
@@ -121,6 +121,8 @@ export const refreshToken = async (req, reply) => {
 };
 
 export const fetchUser = async (req, reply) => {
+  console.log("==========fetchUser=========");
+  // console.log(req);
   try {
     const { userId, role } = req.body;
     if (!userId || !role) {

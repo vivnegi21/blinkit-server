@@ -10,7 +10,7 @@ export const createOrder = async (req, reply) => {
     const { userId } = req.user;
     const { items, branch, totalPrice } = req.body;
     const customerData = await Customer.findById(userId);
-    const branchData = await Branch.find(branch);
+    const branchData = await Branch.findById(branch);
     if (!customerData) {
       return reply.status(404).send({ message: "Customer Not Found" });
     }
@@ -30,8 +30,8 @@ export const createOrder = async (req, reply) => {
       },
 
       pickupLocation: {
-        latitude: branchData.liveLocation.latitude,
-        longitude: branchData.liveLocation.longitude,
+        latitude: branchData.location.latitude,
+        longitude: branchData.location.longitude,
         address: branchData.address || "No  branch address Available",
       },
     });
@@ -116,6 +116,8 @@ export const confirmOrder = async (req, reply) => {
       longitude: deliveryPersonLocation?.longitude,
       address: deliveryPersonLocation?.address || "",
     };
+
+    req.server.io.to(orderId).emit("------Order Confirmed------", order);
 
     await order.save();
 
